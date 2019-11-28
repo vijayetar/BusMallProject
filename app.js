@@ -7,7 +7,7 @@ var itemThree = document.getElementById('item3');
 var itemArray = [];
 
 function Item(src, name) {
-    this.src = `.../images${src}.jpg`;
+    this.src = `./images/${src}.jpg`;
     this.title = name;
     this.alt = name;
 
@@ -39,7 +39,9 @@ function generateImages() {
 
     console.log(index, indexTwo, indexThree);
 
-
+    while (indexTwo === index) {
+        indexTwo = randomIndex(itemArray.length - 1);
+    }
 }
 
 function createOnPageLoad() {
@@ -50,7 +52,7 @@ new Item ('boots', 'Toeless Rain Boots');
 new Item ('breakfast', 'Breakfast Station');
 new Item ('bubblegum', 'Meatball Bubblegum');
 new Item ('chair', 'Rounded Chair');
-new Item ('cthulu', 'Cthulu Figurine');
+new Item ('cthulhu', 'Cthulhu Figurine');
 new Item ('dog-duck', 'Duck Muzzle For Dogs');
 new Item ('dragon', 'Canned Dragon Meat');
 new Item ('pen', 'Silverware Pen Tops');
