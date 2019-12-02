@@ -4,45 +4,67 @@
 var itemOne = document.getElementById('item1');
 var itemTwo = document.getElementById('item2');
 var itemThree = document.getElementById('item3');
+var productContainer = document.getElementById('product-container');
 var itemArray = [];
 
+//constructor
 function Item(src, name) {
     this.src = `./images/${src}.jpg`;
     this.title = name;
     this.alt = name;
+    this.clicked = 0;
+    this.viewed = 0;
 
     itemArray.push(this);
 }
 
+//helper function
 function randomIndex(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
 function generateImages() {
-    var index = randomIndex(itemArray.length - 1);
 
-    itemOne.src = itemArray[index].src;
-    itemOne.title = itemArray[index].title;
-    itemOne.alt = itemArray[index].alt;
+    var indexOne = randomIndex(itemArray.length);
 
-    var indexTwo = randomIndex(itemArray.length - 1);
+    itemOne.src = itemArray[indexOne].src;
+    itemOne.title = itemArray[indexOne].title;
+    itemOne.alt = itemArray[indexOne].alt;
+    itemArray[indexOne].viewed++;
+
+    var indexTwo = randomIndex(itemArray.length);
+    while (indexOne === indexTwo) {
+        indexTwo = randomIndex(itemArray.length);
+    }
 
     itemTwo.src = itemArray[indexTwo].src;
     itemTwo.title = itemArray[indexTwo].title;
-    itemThree.alt = itemArray[indexTwo].alt;
+    itemTwo.alt = itemArray[indexTwo].alt;
+    itemArray[indexTwo].viewed++;
 
-    var indexThree = randomIndex(itemArray.length - 1);
+    var indexThree = randomIndex(itemArray.length);
+    while (indexThree === indexTwo || indexThree === indexOne) {
+        indexThree = randomIndex(itemArray.length);
+    }
 
     itemThree.src = itemArray[indexThree].src;
     itemThree.title = itemArray[indexThree].title;
     itemThree.alt = itemArray[indexThree].alt;
+    itemArray[indexThree].viewed++;
+    
+    console.table(itemArray);
+};
 
-    console.log(index, indexTwo, indexThree);
-
-    while (indexTwo === index) {
-        indexTwo = randomIndex(itemArray.length - 1);
+function handleClick(event) {
+    var vote = event.target.title;
+    console.log(vote, 'was clicked');
+    for (var i = 0; i < itemArray.length; i++) {
+        if (vote === itemArray[i].title) {
+            itemArray[i].clicked++;
+        }
     }
-}
+    generateImages();
+};
 
 function createOnPageLoad() {
 new Item ('bag', 'R2-D2 Bag');
@@ -68,10 +90,5 @@ new Item ('wine-glass', 'Impossible Wine Glass');
 };
 
 createOnPageLoad();
-generateImages ()
-console.table(itemArray);
-
-
-
-
-
+productContainer.addEventListener('click', handleClick);
+generateImages();
