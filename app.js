@@ -5,7 +5,9 @@ var itemOne = document.getElementById('item1');
 var itemTwo = document.getElementById('item2');
 var itemThree = document.getElementById('item3');
 var productContainer = document.getElementById('product-container');
+var resultsSection = document.getElementById('list');
 var itemArray = [];
+var voteRounds = 25;
 
 //constructor
 function Item(src, name) {
@@ -16,37 +18,39 @@ function Item(src, name) {
     this.viewed = 0;
 
     itemArray.push(this);
-}
+};
 
 //helper function
 function randomIndex(max) {
     return Math.floor(Math.random() * Math.floor(max));
-}
+};
+
+
 
 function generateImages() {
-
+    
     var indexOne = randomIndex(itemArray.length);
-
+    
     itemOne.src = itemArray[indexOne].src;
     itemOne.title = itemArray[indexOne].title;
     itemOne.alt = itemArray[indexOne].alt;
     itemArray[indexOne].viewed++;
-
+    
     var indexTwo = randomIndex(itemArray.length);
     while (indexOne === indexTwo) {
         indexTwo = randomIndex(itemArray.length);
     }
-
+    
     itemTwo.src = itemArray[indexTwo].src;
     itemTwo.title = itemArray[indexTwo].title;
     itemTwo.alt = itemArray[indexTwo].alt;
     itemArray[indexTwo].viewed++;
-
+    
     var indexThree = randomIndex(itemArray.length);
     while (indexThree === indexTwo || indexThree === indexOne) {
         indexThree = randomIndex(itemArray.length);
     }
-
+    
     itemThree.src = itemArray[indexThree].src;
     itemThree.title = itemArray[indexThree].title;
     itemThree.alt = itemArray[indexThree].alt;
@@ -55,16 +59,48 @@ function generateImages() {
     console.table(itemArray);
 };
 
-function handleClick(event) {
-    var vote = event.target.title;
-    console.log(vote, 'was clicked');
-    for (var i = 0; i < itemArray.length; i++) {
-        if (vote === itemArray[i].title) {
-            itemArray[i].clicked++;
-        }
-    }
-    generateImages();
+//show element
+function show(elem) {
+    elem.style.display = 'block';
 };
+
+//hide element
+function hide(elem) {
+    elem.style.display = 'none';
+};
+
+function analysis() {
+    
+    var ulEl = document.createElement('ul');
+    for (var i = 0; i < itemArray.length; i++) {
+        var liEl = document.createElement('li');
+        liEl.textContent = `${itemArray[i].title}: ${itemArray[i].clicked} clicks & ${itemArray[i].viewed} views`
+        ulEl.appendChild(liEl);
+    }
+    resultsSection.appendChild(ulEl);
+};
+
+function handleClick(event) {
+    voteRounds--;
+    if(voteRounds === 0) {
+        productContainer.removeEventListener('click', handleClick);
+        console.log('Voting is finished!');
+        analysis();
+        hide(productContainer);
+    } else {
+        console.log(event.target.title);
+        var vote = event.target.title;
+        console.log(vote, ' was clicked');
+        for (var i = 0; i < itemArray.length; i++) {
+            if (vote === itemArray[i].title) {
+                itemArray[i].clicked++;
+            }
+        } 
+        generateImages();
+      
+    }
+};
+
 
 function createOnPageLoad() {
 new Item ('bag', 'R2-D2 Bag');

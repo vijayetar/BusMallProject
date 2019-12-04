@@ -17,9 +17,11 @@ h1 {
     font-size: 36px;
     padding: 10px 10px 10px 10px;
 }
-#images {
-    display: inline-block;
+#product-container {
+    /*display: none; */
+    margin: auto;
     text-align: center;
+
 }
 
 #thanks {
