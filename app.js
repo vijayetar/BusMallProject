@@ -8,6 +8,11 @@ var productContainer = document.getElementById('product-container');
 var resultsSection = document.getElementById('list');
 var itemArray = [];
 var voteRounds = 25;
+var titleContainer = document.getElementById('titles');
+var chartContainer = document.getElementById('chart');
+var buttons = document.getElementById('buttons');
+var chartButton = document.getElementById('view-chart');
+var listButton = document.getElementById('view-list');
 
 //constructor
 function Item(src, name) {
@@ -123,6 +128,10 @@ new Item ('unicorn', 'Canned Unicorn Meat');
 new Item ('usb', 'Tentacle USB');
 new Item ('water-can', 'Self-Watering Watering Can');
 new Item ('wine-glass', 'Impossible Wine Glass');
+};
+
+function showButtons() {
+    show(buttons);
 };
 
 createOnPageLoad();
