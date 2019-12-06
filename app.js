@@ -15,6 +15,7 @@ var chartButton = document.getElementById('view-chart');
 var listButton = document.getElementById('view-list');
 var clickNumber = 24;
 
+
 //constructor
 function Item(src, name) {
     this.src = `./images/${src}.jpg`;
@@ -101,6 +102,7 @@ function handleClick(event) {
             if (vote === itemArray[i].title) {
                 itemArray[i].clicked++;
             }
+          
         } clickNumber--;
         if (clickNumber === 0) {
             makeChart();
@@ -133,6 +135,11 @@ var chart = new Chart(ctx, {
     // Configuration options go here
     options: {}
 });
+};
+        } 
+        generateImages();
+      
+    }
 };
 
 function createOnPageLoad() {
@@ -167,3 +174,4 @@ productContainer.addEventListener('click', handleClick);
 generateImages();
 
 //adding changes to commit
+
