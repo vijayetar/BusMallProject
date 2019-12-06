@@ -13,6 +13,7 @@ var chartContainer = document.getElementById('chart');
 var buttons = document.getElementById('buttons');
 var chartButton = document.getElementById('view-chart');
 var listButton = document.getElementById('view-list');
+var clickNumber = 24;
 
 //constructor
 function Item(src, name) {
@@ -100,12 +101,39 @@ function handleClick(event) {
             if (vote === itemArray[i].title) {
                 itemArray[i].clicked++;
             }
-        } 
-        generateImages();
-      
+        } clickNumber--;
+        if (clickNumber === 0) {
+            makeChart();
+            show(chartContainer);
+            showButtons();
+        } else {
+            ///removeThree();
+            generateImages();
+        };
     }
 };
 
+function makeChart() {
+    var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+            label: 'Voting Results',
+            backgroundColor: 'rgb(0, 0, 0)',
+            borderColor: 'rgb(0, 0, 0)',
+            data: [0, 10, 5, 2, 20, 30, 45]
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
+};
 
 function createOnPageLoad() {
 new Item ('bag', 'R2-D2 Bag');
