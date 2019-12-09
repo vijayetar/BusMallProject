@@ -10,10 +10,10 @@ var itemArray = [];
 var voteRounds = 25;
 var titleContainer = document.getElementById('titles');
 var chartContainer = document.getElementById('chart');
-var buttons = document.getElementById('buttons');
-var chartButton = document.getElementById('view-chart');
-var listButton = document.getElementById('view-list');
 var clickNumber = 24;
+var clickedArray = [];
+var viewedArray = [];
+var nameArray = [];
 
 
 //constructor
@@ -32,9 +32,35 @@ function randomIndex(max) {
     return Math.floor(Math.random() * Math.floor(max));
 };
 
+function createItemSet() {
+    var storeThis = localStorage.getItem('box');
+    if (storeThis) {
+        itemArray = JSON.parse(storeThis);
+    } else {
+    new Item ('bag', 'R2-D2 Bag');
+    new Item ('banana', 'Banana Slicer');
+    new Item ('bathroom', 'iPad and Toilet Paper Holder');
+    new Item ('boots', 'Toeless Rain Boots');
+    new Item ('breakfast', 'Breakfast Station');
+    new Item ('bubblegum', 'Meatball Bubblegum');
+    new Item ('chair', 'Rounded Chair');
+    new Item ('cthulhu', 'Cthulhu Figurine');
+    new Item ('dog-duck', 'Duck Muzzle For Dogs');
+    new Item ('dragon', 'Canned Dragon Meat');
+    new Item ('pen', 'Silverware Pen Tops');
+    new Item ('pet-sweep', 'Pet Sweeper');
+    new Item ('scissors', 'Pizza Scissors');
+    new Item ('shark', 'Shark Sleeping Bag');
+    new Item ('sweep', 'Baby Sweeper');
+    new Item ('tauntaun', 'Tauntaun Sleeping Bag');
+    new Item ('unicorn', 'Canned Unicorn Meat');
+    new Item ('usb', 'Tentacle USB');
+    new Item ('water-can', 'Self-Watering Watering Can');
+    new Item ('wine-glass', 'Impossible Wine Glass');
+    }
+};
 
-
-function generateImages() {
+function generateItems() {
     
     var indexOne = randomIndex(itemArray.length);
     
@@ -66,11 +92,23 @@ function generateImages() {
     console.table(itemArray);
 };
 
+createItemSet();
+generateItems();
+productContainer.addEventListener('click', handleClick);
+
+function makeCVNArray() {
+    for (var i = 0; i < itemArray.length; i++) {
+      clickedArray.push(itemArray[i].clicked);
+      viewedArray.push(itemArray[i].viewed);
+      nameArray.push(itemArray[i].title);
+    }
+};
+
 //show element
 function show(elem) {
     elem.style.display = 'block';
 };
-
+    
 //hide element
 function hide(elem) {
     elem.style.display = 'none';
@@ -102,76 +140,155 @@ function handleClick(event) {
             if (vote === itemArray[i].title) {
                 itemArray[i].clicked++;
             }
-          
         } clickNumber--;
         if (clickNumber === 0) {
-            makeChart();
-            show(chartContainer);
-            showButtons();
-        } else {
-            ///removeThree();
-            generateImages();
-        };
+            hide(productContainer);
+            show(myChart);
+            makeCVNArray(itemArray);
+            localStorage.setItem('box', JSON.stringify(itemArray));
+        } 
+        generateItems();
     }
 };
 
 function makeChart() {
     var ctx = document.getElementById('myChart').getContext('2d');
-var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'bar',
-
-    // The data for our dataset
-    data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [{
-            label: 'Voting Results',
-            backgroundColor: 'rgb(0, 0, 0)',
-            borderColor: 'rgb(0, 0, 0)',
-            data: [0, 10, 5, 2, 20, 30, 45]
-        }]
-    },
-
-    // Configuration options go here
-    options: {}
-});
-};
-        } 
-        generateImages();
-      
-    }
-};
-
-function createOnPageLoad() {
-new Item ('bag', 'R2-D2 Bag');
-new Item ('banana', 'Banana Slicer');
-new Item ('bathroom', 'iPad and Toilet Paper Holder');
-new Item ('boots', 'Toeless Rain Boots');
-new Item ('breakfast', 'Breakfast Station');
-new Item ('bubblegum', 'Meatball Bubblegum');
-new Item ('chair', 'Rounded Chair');
-new Item ('cthulhu', 'Cthulhu Figurine');
-new Item ('dog-duck', 'Duck Muzzle For Dogs');
-new Item ('dragon', 'Canned Dragon Meat');
-new Item ('pen', 'Silverware Pen Tops');
-new Item ('pet-sweep', 'Pet Sweeper');
-new Item ('scissors', 'Pizza Scissors');
-new Item ('shark', 'Shark Sleeping Bag');
-new Item ('sweep', 'Baby Sweeper');
-new Item ('tauntaun', 'Tauntaun Sleeping Bag');
-new Item ('unicorn', 'Canned Unicorn Meat');
-new Item ('usb', 'Tentacle USB');
-new Item ('water-can', 'Self-Watering Watering Can');
-new Item ('wine-glass', 'Impossible Wine Glass');
-};
-
-function showButtons() {
-    show(buttons);
-};
-
-createOnPageLoad();
-productContainer.addEventListener('click', handleClick);
-generateImages();
-
-//adding changes to commit
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: nameArray,
+        datasets: [
+          {
+            label: 'Number of Clicks',
+            data: clickedArray,
+            backgroundColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)'
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(255, 99, 132, 1)'
+            ],
+            borderWidth: 2.5
+          },
+          {
+            label: 'Number of Views',
+            data: viewedArray,
+            backgroundColor: [
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)'
+            ],
+            borderColor: [
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)',
+              'rgba(0,0,0,1)'
+            ],
+            borderWidth: 2.5
+          }
+        ]
+      },
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true
+              }
+            }
+          ]
+        }
+      }
+    });
+  };
 
