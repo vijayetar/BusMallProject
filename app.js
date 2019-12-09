@@ -104,7 +104,6 @@ function makeCVNArray() {
     }
 };
 
-
 //show element
 function show(elem) {
     elem.style.display = 'block';
