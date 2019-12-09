@@ -1,6 +1,6 @@
 'use strict';
 
-//global variables for pictures
+//global variables for items
 var itemOne = document.getElementById('item1');
 var itemTwo = document.getElementById('item2');
 var itemThree = document.getElementById('item3');
@@ -16,7 +16,7 @@ var viewedArray = [];
 var nameArray = [];
 
 
-//constructor
+//constructor function for items
 function Item(src, name) {
     this.src = `./images/${src}.jpg`;
     this.title = name;
@@ -32,6 +32,7 @@ function randomIndex(max) {
     return Math.floor(Math.random() * Math.floor(max));
 };
 
+//function that holds information for all the items
 function createItemSet() {
     var storeThis = localStorage.getItem('box');
     if (storeThis) {
@@ -60,6 +61,7 @@ function createItemSet() {
     }
 };
 
+//function to generate the 3 images of the items
 function generateItems() {
     
     var indexOne = randomIndex(itemArray.length);
@@ -96,6 +98,7 @@ createItemSet();
 generateItems();
 productContainer.addEventListener('click', handleClick);
 
+//function to create an array for clicks, views, and names of items
 function makeCVNArray() {
     for (var i = 0; i < itemArray.length; i++) {
       clickedArray.push(itemArray[i].clicked);
@@ -114,8 +117,8 @@ function hide(elem) {
     elem.style.display = 'none';
 };
 
+//function for results of voting
 function analysis() {
-    
     var ulEl = document.createElement('ul');
     for (var i = 0; i < itemArray.length; i++) {
         var liEl = document.createElement('li');
@@ -125,6 +128,7 @@ function analysis() {
     resultsSection.appendChild(ulEl);
 };
 
+//function to allow clicks/votes to register as well as to show results when finished
 function handleClick(event) {
     voteRounds--;
     if(voteRounds === 0) {
@@ -145,12 +149,14 @@ function handleClick(event) {
             hide(productContainer);
             show(myChart);
             makeCVNArray(itemArray);
+            //more logic to add local storage
             localStorage.setItem('box', JSON.stringify(itemArray));
         } 
         generateItems();
     }
 };
 
+//logic to render chart for voting results
 function makeChart() {
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
