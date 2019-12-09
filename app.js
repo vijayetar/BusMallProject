@@ -14,7 +14,7 @@ var clickNumber = 24;
 var clickedArray = [];
 var viewedArray = [];
 var nameArray = [];
-var parseItemArray = [];
+
 
 //constructor
 function Item(src, name) {
